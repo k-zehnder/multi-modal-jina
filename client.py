@@ -4,6 +4,7 @@ from jina import Executor, Flow, requests
 from jina.types.request import Request
 from docarray import DocumentArray, Document
 from docarray.array.sqlite import SqliteConfig
+import cv2
 from helpers import create_query_da, get_embedded_da_from_img_files, plot_search_results, get_client, search_by_text, show_results, show_montage
 
 
@@ -32,5 +33,5 @@ if __name__ == "__main__":
     results = search_by_text(c, query_text, verbose=True)
     
     show_montage(query_text, results)
-    import cv2
+    
     cv2.destroyAllWindows()
