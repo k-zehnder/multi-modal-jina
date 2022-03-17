@@ -1,0 +1,31 @@
+#lsof -n -i4TCP:8080
+# kill -9 21023
+#PEXELS API=563492ad6f9170000100000134462d29bc3e4e7e87bc2d4f88929fa1
+
+
+# def index():
+#     with flow:
+#         flow.index(inputs=docs)
+
+
+# def search():
+#     with flow:
+#         query = Document(text=input("Please enter your search term: "))
+#         response = flow.search(inputs=query, return_results=True)
+
+#     print_search_results(response)
+
+# def search_restful():
+#     with flow:
+#         flow.protocol = "http"
+#         flow.port_expose = PORT
+#         # Keep Flow open until terminated by user
+#         flow.block()
+
+
+# argument = sys.argv[1]
+
+# if argument == "index":
+#     index()
+# elif argument == "search":
+#     search()
