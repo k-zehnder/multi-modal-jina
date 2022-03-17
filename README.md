@@ -1,5 +1,4 @@
 # multi-modal-jina
 
-### Jina Image Search Engine
-CLIPImageEncoder / CLIPTextEncoder text-to-image
+Jina Multi-Modal Image Search Engine
 ![video_games_query](docs/usage/video_games.jpg)
