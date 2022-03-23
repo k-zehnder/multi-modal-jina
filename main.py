@@ -26,25 +26,15 @@ class Query(BaseModel):
 
 @app.post('/get_match')
 def get_match(query: Query):
-    connection = "./workspace/SimpleIndexer/0/tattoo_images_index.db"
-    table = "clip"
-    da = get_docs_from_sqlite(connection, table)
-    print(f'da: {da}')
-    print(da[0])
-    # return da[0].to_pydantic_model()
     c = get_client()
-    print(c)
-    query_text = "butterfly"
+    query_text = query.query_text
     results = search_by_text(c, query_text, verbose=True)
-    print(results)
-    return {"data" : da[0].uri}
-
-# @app.post('/demo_match')
-# async def demo_match(query: Query):
-#     da = DocumentArray.empty(10)
-#     da.embeddings = np.random.random([len(da), 3])
-#     da.match(da)
-#     return da.to_pydantic_model()
+    for d in results:
+        for m in d.matches:
+            print(d.uri, m.uri, m.scores['cosine'].value)
+    results = [[query_text, m.uri, m.scores['cosine'].value] for m in d.matches for d in results]
+    print(f'results: {results}')
+    return {"results" : results}
 
 @app.post('/single')
 async def create_item(item: PydanticDocument):
@@ -60,8 +50,9 @@ async def create_items(multiple_items: PydanticDocumentArray):
     ...  # process `d` how ever you want
     return da.to_pydantic_model()
 
-# conn = "./workspace/SimpleIndexer/0/tattoo_images_index.db"
-# table = "clip"
-# def get_docs_from_sqlite(connection, table):
-#     cfg = SqliteConfig(connection, table)
-#     return DocumentArray(storage='sqlite', config=cfg)
+# @app.post('/get_match_db')
+# def get_match(query: Query):
+#     connection = "./workspace/SimpleIndexer/0/tattoo_images_index.db"
+#     table = "clip"
+#     da = get_docs_from_sqlite(connection, table)
+#     return da
