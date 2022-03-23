@@ -29,3 +29,13 @@
 #     index()
 # elif argument == "search":
 #     search()
+
+# {
+#   "text": "name_default",
+#   "uri": "./docs/usage/stars.jpg"
+# }
+
+# {
+#     "text" : "name_default",
+#     "uris" : ["./docs/usage/stars.jpg"]
+# }

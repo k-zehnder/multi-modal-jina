@@ -6,26 +6,19 @@ import cv2
 import numpy as np
 from typing import List
 from docarray.array.sqlite import SqliteConfig
-from helpers import create_query_da, get_embedded_da_from_img_files, plot_search_results, get_client, search_by_text, show_results, show_montage, get_docs_from_sqlite
+from helpers import get_client, search_by_text, show_results, get_docs_from_sqlite
 from schemas import Item, MultipleItems
+
 
 app = FastAPI()
 
-# {
-#   "text": "name_default",
-#   "uri": "./docs/usage/stars.jpg"
-# }
-
-# {
-#     "text" : "name_default",
-#     "uris" : ["./docs/usage/stars.jpg"]
-# }
 
 class Query(BaseModel):
     query_text: str = "video games"
 
 @app.post('/get_match')
 def get_match(query: Query):
+    # NOTE: need to have create_data.py running in background for this to work
     c = get_client()
     query_text = query.query_text
     results = search_by_text(c, query_text, verbose=True)
@@ -47,7 +40,7 @@ async def create_items(multiple_items: PydanticDocumentArray):
     img = cv2.imread(da[0].uri)
     print(img)
     # now `d` is a Document object
-    ...  # process `d` how ever you want
+    # process `d` how ever you want
     return da.to_pydantic_model()
 
 # @app.post('/get_match_db')
