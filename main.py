@@ -22,10 +22,7 @@ def get_match(query: Query):
     c = get_client()
     query_text = query.query_text
     results = search_by_text(c, query_text, verbose=True)
-    for d in results:
-        for m in d.matches:
-            print(d.uri, m.uri, m.scores['cosine'].value)
-    results = [[query_text, m.uri, m.scores['cosine'].value] for m in d.matches for d in results]
+    results = [[query_text, m.uri, m.scores['cosine'].value] for m in results[0].matches]
     print(f'results: {results}')
     return {"results" : results}
 
