@@ -57,10 +57,10 @@ def show_results(query, results):
             print(d.uri, m.uri, m.scores['cosine'].value)
     return results
 
-def load_caltech(path):
+def load_caltech(path, num):
     da = DocumentArray()
     imagePaths = paths.list_images(path)
-    for imagePath in imagePaths:
+    for imagePath in imagePaths[:num]:
         da.append(Document(uri=imagePath))
     da.apply(
             lambda d: d.load_uri_to_image_tensor()

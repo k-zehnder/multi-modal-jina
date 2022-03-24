@@ -28,7 +28,8 @@ if __name__ == "__main__":
     # query_text = "rock and roll"
     # query_text = "airplane"
     # query_text = "lion"
-    query_text = "butterfly"
+    # query_text = "butterfly"
+    query_text = "car"
 
     results = search_by_text(c, query_text, verbose=True)
     

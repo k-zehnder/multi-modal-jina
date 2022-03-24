@@ -12,6 +12,8 @@ from docarray.array.sqlite import SqliteConfig
 from helpers import get_embedded_da_from_img_files, plot_search_results, load_caltech
 
 
+IMAGES_PATH = "./data/tattoo_images/*.jpg"
+# NOTE: need to have docker desktop running for this to work on macs
 
 class SimpleIndexer(Executor):
     def __init__(self, **kwargs):
@@ -20,7 +22,7 @@ class SimpleIndexer(Executor):
         self._index = DocumentArray(
             storage='sqlite',
             config={
-                'connection': os.path.join(self.workspace, 'tattoo_images_index.db'),
+                'connection': os.path.join(self.workspace, 'index.db'),
                 'table_name': 'clip',
             },
         )
@@ -138,15 +140,14 @@ class CLIPTextEncoder(Executor):
         return input_tokens
 
 # ------------ Driver
-IMAGES_PATH = "./data/tattoo_images/*.jpg"
 images = get_embedded_da_from_img_files(IMAGES_PATH, num=1500)
-# images = load_caltech("./data/caltech101")
-print(f"images: {images}")
+# images = load_caltech("./data/caltech101", num=1500)
+# print(f"images: {images}")
 
-# current_dir = pathlib.Path(__file__).parent.resolve()
-# if os.path.exists(os.path.join(current_dir, "workspace")):
-#     print("[INFO] removing existing workspace...")
-#     shutil.rmtree(os.path.join(current_dir, "workspace"))
+current_dir = pathlib.Path(__file__).parent.resolve()
+if os.path.exists(os.path.join(current_dir, "workspace")):
+    print("[INFO] removing existing workspace...")
+    shutil.rmtree(os.path.join(current_dir, "workspace"))
 
 flow_index = (
     Flow(port=12345)
@@ -164,17 +165,17 @@ flow_search_text = (
 )
 
 with flow_search_text:
-    # resp = flow_search_text.post(
-    #         on="/search",
-    #         inputs=DocumentArray(
-    #             [
-    #                 Document(text='airplane'),
-    #                 Document(text='cards'),
-    #             ]
-    #         ),
-    #         on_done=plot_search_results, return_results=True
-    # )
-    # print(f'resp: {resp}')
+    resp = flow_search_text.post(
+            on="/search",
+            inputs=DocumentArray(
+                [
+                    Document(text='airplane'),
+                    Document(text='cards'),
+                ]
+            ),
+            on_done=plot_search_results, return_results=True
+    )
+    print(f'resp: {resp}')
 
     # BLOCK
     flow_search_text.block()
