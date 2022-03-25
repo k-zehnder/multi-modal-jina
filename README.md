@@ -4,6 +4,7 @@
 Jina app which allows you to search a collection of tattoo images by text. 
 
 ### Example 1
+Query text: Video games
 ![video_games_query](docs/usage/video_games.jpg)
 
 ### Example 2
